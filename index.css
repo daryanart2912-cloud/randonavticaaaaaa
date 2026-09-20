@@ -1,0 +1,270 @@
+@import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
+
+@theme {
+  --font-display: "Special Elite", ui-serif, Georgia, serif;
+  --font-sans: "Merriweather", ui-serif, Georgia, serif;
+  --font-ui: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --color-ink: #2a241c;
+  --color-parchment: #e8d9c0;
+  --color-pine: #2f3d32;
+  --color-moss: #5a6b42;
+  --color-amber: #c4893a;
+  --color-wood: #6b4a32;
+  --color-charcoal: #1c1610;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  margin: 0;
+  background: #1c1610;
+  color: #2a241c;
+}
+
+body {
+  font-family: var(--font-sans);
+}
+
+.app-shell {
+  position: relative;
+  min-height: 100dvh;
+}
+
+.app-bg {
+  position: fixed;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(28, 22, 16, 0.72), rgba(28, 22, 16, 0.82)),
+    url("/bg-field.jpg") center / cover no-repeat;
+  z-index: 0;
+}
+
+.app-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  backdrop-filter: blur(6px);
+  background: rgba(28, 22, 16, 0.28);
+}
+
+.app-shell > *:not(.app-bg) {
+  position: relative;
+  z-index: 1;
+}
+
+.dossier {
+  border: 2px solid #1c1610;
+  border-radius: 2px;
+  background: #f7ecd4;
+  box-shadow: 7px 7px 0 #1c1610;
+}
+
+.dossier-dark {
+  border: 2px solid #c4893a;
+  border-radius: 4px;
+  background: #2a241c;
+  color: #e8d9c0;
+  box-shadow: 5px 5px 0 #1c1610;
+}
+
+.stamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1.5px dashed #8b3a2a;
+  color: #8b3a2a;
+  padding: 2px 8px;
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transform: rotate(-2deg);
+}
+
+.field-input {
+  width: 100%;
+  border: 2px solid #2a241c;
+  background: #fff8ea;
+  padding: 10px 12px;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  color: #2a241c;
+  outline: none;
+}
+
+.field-input:focus {
+  box-shadow: 3px 3px 0 #c4893a;
+}
+
+.mode-tile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 2px solid #c4b18a;
+  background: #fff8ea;
+  padding: 10px;
+  text-align: left;
+  font-family: var(--font-ui);
+}
+
+.mode-tile.is-on {
+  border-color: #6b4a32;
+  background: #efe0b8;
+  box-shadow: 3px 3px 0 #5a6b42;
+}
+
+.mode-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border: 1.5px solid #d4c4a8;
+  border-radius: 6px;
+  background: #efe6d2;
+  color: #6b4a32;
+}
+
+.mode-tile.is-on .mode-icon {
+  border-color: #c4893a;
+  background: #f4e6c4;
+  color: #c4893a;
+}
+
+.generate-btn {
+  background: #5a6b42;
+  color: #f3ead6;
+  border: 2px solid #1c1610;
+  box-shadow: 5px 5px 0 #1c1610;
+  font-family: var(--font-display);
+}
+
+.ghost-btn {
+  border: 2px solid #2a241c;
+  background: #e8d9c0;
+  color: #2a241c;
+  font-family: var(--font-ui);
+  box-shadow: 3px 3px 0 #6b4a32;
+}
+
+.radius-slider {
+  appearance: none;
+  height: 8px;
+  border-radius: 0;
+  background: linear-gradient(90deg, #5a6b42, #c4893a);
+  border: 1px solid #2a241c;
+}
+
+.radius-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: #f3ead6;
+  border: 2px solid #2a241c;
+}
+
+.compass-wrap {
+  position: relative;
+  width: min(70vw, 240px);
+  aspect-ratio: 1;
+}
+
+.compass-ring {
+  position: absolute;
+  inset: 0;
+  border: 4px solid #2a241c;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, #f3ead6 0 38%, transparent 39%),
+    repeating-conic-gradient(#2a241c 0 2deg, transparent 2deg 15deg);
+  box-shadow: 8px 8px 0 #1c1610;
+}
+
+.compass-needle {
+  position: absolute;
+  left: 50%;
+  top: 12%;
+  width: 8px;
+  height: 76%;
+  margin-left: -4px;
+  background: linear-gradient(#8b3a2a 50%, #2a241c 50%);
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+}
+
+.user-beacon {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #5a6b42;
+  border: 2px solid #f3ead6;
+  box-shadow: 0 0 0 2px #2a241c;
+  position: relative;
+}
+
+.user-beacon span {
+  position: absolute;
+  inset: -7px;
+  border-radius: 50%;
+  border: 2px solid rgba(90, 107, 66, 0.7);
+  animation: ping 1.8s ease-out infinite;
+}
+
+.field-pin {
+  width: 16px;
+  height: 16px;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  background: var(--c);
+  border: 2px solid #f7ecd4;
+  box-shadow: 1px 1px 0 #1c1610;
+}
+
+.leaflet-container {
+  background: #3a3328;
+  font-family: inherit;
+}
+
+.leaflet-tile-pane {
+  filter: sepia(0.45) saturate(0.7) brightness(0.92) contrast(1.05);
+}
+
+.polaroid {
+  background: #fff8ea;
+  border: 1px solid #2a241c;
+  padding: 6px 6px 18px;
+  box-shadow: 3px 3px 0 #1c1610;
+  transform: rotate(var(--tilt, -1.5deg));
+}
+
+.polaroid img {
+  display: block;
+  width: 100%;
+  height: 72px;
+  object-fit: cover;
+  border: 1px solid #6b4a32;
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  background: rgba(28, 22, 16, 0.88);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+@keyframes ping {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
